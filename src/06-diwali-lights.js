@@ -39,4 +39,43 @@
  */
 export function diwaliLightsPlan(lightStrings, budget) {
   // Your code here
+  if (!Array.isArray(lightStrings) || budget <= 0) {
+    return { selected: [], totalLength: 0, totalCost: 0 };
+  }
+
+  let selected = [];
+  let totalLength = 0;
+  let totalCost = 0;
+
+  for (let i = 0; i < lightStrings.length; i++) {
+    const light = lightStrings[i];
+    let costPerMeter;
+
+    switch (light.color) {
+      case "golden":
+        costPerMeter = 50;
+        break;
+      case "multicolor":
+        costPerMeter = 40;
+        break;
+      case "white":
+        costPerMeter = 30;
+        break;
+      default:
+        costPerMeter = 35;
+        break;
+    }
+
+    const cost = light.length * costPerMeter;
+
+    if (totalCost + cost <= budget) {
+      selected.push({ color: light.color, length: light.length, cost });
+      totalLength += light.length;
+      totalCost += cost;
+    } else {
+      break;
+    }
+  }
+
+  return { selected, totalLength, totalCost };
 }
